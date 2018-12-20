@@ -1,0 +1,124 @@
+#!/bin/bash
+
+trap '[[ "$?" -eq 1 ]] && rm -rf ~/project && echo "....Cleaning up stuff"' EXIT.
+
+# To use this script, user must supply UserID/username, GroupID/groupname and Directory path
+
+         [ ! -e ~/project ] && cd ~ ; mkdir project 2> /dev/null  # Tests if the directory already exists
+
+read  -r  -p "Please enter  UID/username GID/groupname Directory_path, in that order: " name group directory_path
+
+set "$name" "$group" "$directory_path"
+
+
+
+if [[ -z "$1" || -z "S2" || -z "$3" ]] ; then # tests if all three required strings are supplied
+
+
+        echo "Usage: UID/username GID/groupname Directory_path"
+        exit 1
+fi
+
+
+# Check if the user ID or username is valid. Both stdout and stderr are sent to null
+
+
+getent passwd "$1" &> /dev/null
+
+if [[ $? -eq 0 ]] ; then
+        echo "The user exists on the system"
+else
+        echo "$1 does not exist" 1>&2
+        exit 1
+fi
+# Test if the group ID is valid and the user is a member of the group
+
+getent group "$2" &> /dev/null
+if [[ $? -eq 0 ]] ; then
+
+        echo "The group ID/group name exits on the system"
+        groupID=`grep $1 /etc/passwd | cut -d: -f 4`
+        if [[ "$groupID" = "$2" || "$groupID" = `grep ^$2 /etc/group | cut -d: -f 3` ]] ; then # tests if user is a member of the group
+
+                echo "User is a valid member of the group"
+        else
+                echo "$1 is not a valid member of $2" 1>&2
+                exit 1
+        fi
+else
+        echo "The Groupname/ID supplied is not valid"
+                exit 1
+fi
+
+# Test if a valid directory has been supplied.
+DIR="$3"
+
+if [ ! -e "$DIR" ] ; then
+
+        echo "Directory does not exist" 1>&2
+        exit 1
+elif [ ! -d "$DIR" ]; then
+
+        echo " $3 is Not a Directory"
+        exit 1
+else
+        echo "The Directory is valid"
+fi
+
+find "$3" -perm /u=x,g=x,o=x 2> /dev/null  | while  read line ; do
+
+        if [ -f "$line" ]; then    #we're testing for only files permissions, not directory.
+                file_owner=$(ls -al "$line" | tr -s ' ' |  cut -d' ' -f 3)  # if a username is supplied
+                group_owner=$(ls -al "$line" | tr -s ' ' | cut -d' ' -f 4)  # if a group name is supplied
+                var1=`readlink -f $line`   #readlink reveals entire file path, incase "." is given as directory path
+                var11=$(basename $line)   # strip off the file path name
+                var2=`sudo ls -l $var11 2> /dev/null`   # permission error is sent to stderr
+                var3=$var1:$var2
+
+                if [ "$1" = "$file_owner" -o `grep "$1" /etc/passwd | cut -d: -f 1` = "$file_owner" ]; then  #if either username or userID is supplied
+
+                        echo "User owns file"
+
+                        execbit=$(stat -c %A "$line" | cut -c4) #this expression returns 'x' or '-' character. x position is 4 for user owner
+                        if [ "$execbit" = "x" ]
+                        then
+
+                                echo "$var3:YU" >> ~/project/executable_file.txt
+
+                        else
+                                echo "$var3:NU" >> ~/project/executable_file.txt
+
+
+                        fi
+                elif [ "$2" = "$group_owner" -o `grep "$2" /etc/passwd | cut -d: -f 1` = "$group_owner" ]; then
+                        echo "Group owns file"
+
+                         execbit=$(stat -c %A "$line" | cut -c7)  # 'x' position is 7 for group
+                        if [ "$execbit" = "x" ]
+                        then
+                                echo "$var3:YG" >> ~/project/executable_file.txt
+
+                        else
+                                 echo "$var3:NG" >> ~/project/executable_file.txt
+
+                        fi
+                else
+
+                         execbit=$(stat -c %A "$line" | cut -c10) # 'x' position is 10 for others group
+                         if [ "$execbit" = "x" ]; then
+
+                                echo "$var3:YO" >> ~/project/executable_file.txt
+
+
+                        else
+                                echo "$var3:NO" >> ~/project/executable_file.txt
+                                 #return 0
+
+                        fi
+
+                fi
+
+        fi
+done
+
+
