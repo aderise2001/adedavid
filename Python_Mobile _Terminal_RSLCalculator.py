@@ -37,7 +37,7 @@ def user_locale(BS_position) :
     user_profile = [BS_mobile_dist,Smallcell_mobile_dist,user_direction,user_speed]
     return user_profile
 # ------------------------------------------------------------------------------------------------------------
-# function to implement propagation loss. some parameters returned the user_locale() function will be required
+# function to implement propagation loss. some parameters returned by the user_locale() function will be required
 def propagation_loss(user_distance,Freq):
     H_basestation = 50
     H_small_cell = 10
