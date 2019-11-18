@@ -1,16 +1,18 @@
 #!/bin/bash
+#: Title          : Users_Executable_files_finder
+#: Date           : April 24th 2019
+#: Author         : "Ademilola David Aladetan"        <adedavid@terpmail.umd.edu
+#: Description    : Script searches any given Folder recursively to return all files where a User or its Group membership \
+#:                : has execute permissions
+#: Usage          : To use this script, user must supply UserID/username, GroupID/groupname and Directory path
 
 trap '[[ "$?" -eq 1 ]] && rm -rf ~/project && echo "....Cleaning up stuff"' EXIT.
-
-# To use this script, user must supply UserID/username, GroupID/groupname and Directory path
 
          [ ! -e ~/project ] && cd ~ ; mkdir project 2> /dev/null  # Tests if the directory already exists
 
 read  -r  -p "Please enter  UID/username GID/groupname Directory_path, in that order: " name group directory_path
 
 set "$name" "$group" "$directory_path"
-
-
 
 if [[ -z "$1" || -z "S2" || -z "$3" ]] ; then # tests if all three required strings are supplied
 
@@ -21,7 +23,6 @@ fi
 
 
 # Check if the user ID or username is valid. Both stdout and stderr are sent to null
-
 
 getent passwd "$1" &> /dev/null
 
