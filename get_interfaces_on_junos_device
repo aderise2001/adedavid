@@ -1,0 +1,29 @@
+from pprint import pprint
+from jnpr.junos import Device
+from lxml import etree
+import sys
+import yaml
+
+dev = Device(host='66.129.235.10', port=47006, user='jcluser', passwd='Juniper!1', gather_facts='False').open()
+
+'''
+get_interface = dev.rpc.get_interface_information({'format':'xml'})  
+get_interface = etree.tostring(get_interface, encoding='unicode', pretty_print=True)
+'''
+with open('C://users//aderi//get_interface.xml', 'r') as file:   
+	interface_xml_doc = file.read()
+
+def node_list(xml_doc, xpath_expr):
+	xml_doc = etree.fromstring(xml_doc)
+	return [x.text.strip() for x in xml_doc.xpath(xpath_expr)]
+
+xpath_all_nodes = '//name'
+xpath_abs_path = '/rpc-reply/interface-information/physical-interface/name'
+
+
+if __name__ == '__main__':
+	print(node_list(interface_xml_doc, xpath_all_nodes))
+
+
+
+dev.close()
