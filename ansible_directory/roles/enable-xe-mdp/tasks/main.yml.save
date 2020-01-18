@@ -1,0 +1,12 @@
+---
+- name: Add a loopback interface
+  ios_l3_interface:
+    name: loopback10
+  
+  state: present
+- name: Config an extra Intf G3
+  netconf_config:
+    datastore: running
+    src: './roles/enable-xe-mdp/files/main.yml'
+   
+  

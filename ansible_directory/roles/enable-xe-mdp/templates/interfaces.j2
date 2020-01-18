@@ -1,0 +1,9 @@
+
+{% for port,value in interface.items() %}
+   interface {{ port }} {{ value[0].name }}
+     description {{ value[1].description }}
+     ip address {{ value[2].ip.address.primary.address] }} {{ value[2].ip.address.primary.mask }}
+     no shutdowm
+     exit
+{% endfor %}
+

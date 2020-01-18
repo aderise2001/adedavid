@@ -1,0 +1,10 @@
+---
+
+- name: Config an extra Intf G3
+  netconf_config:
+    datastore: running
+    src: './roles/enable-xe-mdp/files/main.yml'
+    connection: netconf
+    vars:
+      ansible_port: 10000   
+  

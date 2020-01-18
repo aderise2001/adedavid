@@ -1,0 +1,28 @@
+[all:vars]
+ansible_port=10000
+gather_facts=no
+
+[xe:vars]
+ansible_password=C1sco12345
+ansible_user=developer
+ansible_port=8181
+
+[xe]
+ios-xe-mgmt.cisco.com
+
+
+[xr:vars]
+ansible_user=admin
+ansible_password=C1sco12345
+ansible_port=8181
+
+[xr]
+sbx-iosxr-mgmt.cisco.com ansible_network_os=iosxr
+
+
+[nx:vars]
+ansible_user=admin
+ansible_password=Admin_1234!
+
+[nx]
+sbx-nxos-mgmt.cisco.com ansible_network_os=nxos

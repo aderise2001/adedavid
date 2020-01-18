@@ -1,0 +1,32 @@
+<config>
+
+
+
+    <interfaces xmlns="http://openconfig.net/yang/interfaces">
+        <interface>
+            <name>GigabitEthernet3</name>
+            <config>
+                <name>GigabitEthernet3</name>
+                <type xmlns:idx="urn:ietf:params:xml:ns:yang:iana-if-type">idx:ethernetCsmacd</type>
+                <enabled>true</enabled>
+                <description>Configured by Ansible yet another NETCONF</description>
+            </config>
+            <subinterfaces>
+                <subinterface>
+                    <index>0</index>
+                        <ipv4 xmlns="http://openconfig.net/yang/interfaces/ip">
+                            <addresses>
+                                <address>
+                                    <ip>10.1.1.2</ip>
+                                        <config>
+                                            <ip>10.1.1.2</ip>
+                                            <prefix-length>24</prefix-length>
+                                        </config>
+                                </address>
+                            </addresses>
+                        </ipv4>
+                </subinterface>
+            </subinterfaces>
+        </interface>
+    </interfaces>
+</config>

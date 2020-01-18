@@ -1,0 +1,6 @@
+---
+- name: Enable MDP features
+  nxos_feature:
+    feature: "{{ item }}"
+    state: enabled
+  loop: "{{ features }}"

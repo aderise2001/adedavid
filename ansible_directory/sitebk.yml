@@ -1,0 +1,39 @@
+---
+# main playbook
+- hosts: xe
+  connection: netconf
+  gather_facts: no
+  roles:
+  #  - role: enable-xe-mdp
+  vars:
+    ansible_network_os: csr
+
+- hosts: xr
+  connection: network_cli
+  gather_facts: no
+  roles:
+    - role: enable-xr-mdp
+  vars:
+    ansible_network_os: iosxr
+  tasks:
+    - name: Get a Schema for me
+      netconf_rpc:
+        rpc: "get-config"
+        xmlns: "urn:ietf:params:xml:ns:yang:ietf-interfaces"
+        content: |
+          <filter>
+            <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
+             <interface>
+              </interface>
+           </interfaces>
+          </filter>
+        display: json
+        
+
+- hosts: nx
+  connection: netconf
+  gather_facts: no
+  roles:
+  #  - role: enable-nx-mdp
+  vars:
+    ansible_network_os: nxos

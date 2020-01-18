@@ -1,0 +1,14 @@
+---
+- name: Enable MDP features
+  ios_config:
+    lines:
+      - netconf-yang
+      - restconf
+      - ip http secure-server
+
+- name: Config an extra Intf G3
+  netconf_config:
+    datastore: running
+    src: './roles/enable-xe-mdp/files/main.yml'
+    connection: netconf
+  

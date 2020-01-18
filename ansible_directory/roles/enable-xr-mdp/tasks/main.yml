@@ -1,0 +1,8 @@
+---
+- name: Enable the G3 intf using Netconf_config module
+  iosxr_config:
+     src: './roles/enable-xr-mdp/files/interface.config'
+     replace: config
+     backup: yes    
+
+ 

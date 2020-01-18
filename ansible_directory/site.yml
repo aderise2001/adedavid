@@ -1,0 +1,25 @@
+---
+# main playbook
+- hosts: xe
+  connection: netconf
+  gather_facts: no
+  roles:
+    - role: enable-xe-mdp
+  vars:
+    ansible_network_os: csr
+
+- hosts: xr
+  connection: network_cli
+  gather_facts: no
+  roles:
+  #  - role: enable-xr-mdp
+  vars:
+    ansible_network_os: iosxr        
+
+- hosts: nx
+  connection: netconf
+  gather_facts: no
+  roles:
+  #  - role: enable-nx-mdp
+  vars:
+    ansible_network_os: nxos

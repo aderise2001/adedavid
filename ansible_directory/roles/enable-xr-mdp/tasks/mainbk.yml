@@ -1,0 +1,18 @@
+---
+- name: Enable MDP features
+  iosxr_netconf:
+    netconf_vrf: management
+    netconf_port: 10000
+    state: present
+  connection: network_cli  
+  vars:
+    ansible_port: 8181  
+
+- name: Enable the G3 intf using Netconf_config module
+  netconf_config:
+     src: './roles/enable-xr-mdp/files/main.yml'
+     datastore: running
+  connection: netconf
+  tags: mytag
+  vars:
+    ansible_port: 10000
