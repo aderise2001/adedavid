@@ -13,7 +13,7 @@ public class BitAndByte {
 		
 	}
 	
-	// The method belows displays the specific number of bits in a given integer. It's inclusion is for troubleshooting purpose
+	// The method belows displays the specific number of bits in a given integer. Its inclusion is for troubleshooting purpose
 	public String showBits(int num, int numOfBits) {	
 		
 		intVal = num ;
