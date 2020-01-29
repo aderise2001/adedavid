@@ -1,8 +1,7 @@
-configure terminal
-{% for item in ip_interfaces %}
-  interface {{ item.interface }}
+{% for item in devices[ansible_host] %}
+  interface {{ item.name }}
     description {{ item.description }}
-    ipv4 address {{ item.ip }}{{ item.cidr }}
+    ipv4 address {{ item.address }}{{ item.prefix_length }}
 {% if feed.mbps != "" %}
     service-policy input {{ item.mbps }}Mb
     service-policy output {{ item.mbps }}Mb
