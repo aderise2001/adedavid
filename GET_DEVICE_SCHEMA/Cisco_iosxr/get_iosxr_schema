@@ -26,9 +26,9 @@ except Exception:
 with manager.connect(host=host,port=port,username=username,password=password,hostkey_verify=False) as m:
 	
 	netconf_reply = m.get(filter=filter2)
-	pp = ET.fromstring(netconf_reply.xml).findall('.//{urn:ietf:params:xml:ns:yang:ietf-netconf-monitoring}identifier')
-	for elem in pp:
-		if 'cdp' in elem.text:
+	all_schemas = ET.fromstring(netconf_reply.xml).findall('.//{urn:ietf:params:xml:ns:yang:ietf-netconf-monitoring}identifier')
+	for elem in all_schemas:
+		if wordtosearch in elem.text:
 			print(elem.text)
  	
 	
