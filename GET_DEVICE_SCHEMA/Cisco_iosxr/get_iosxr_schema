@@ -1,1 +1,37 @@
+# Purpose: This script searches through a Cisco IOSXR device to retrieve the schemas defined in the Yang data models
 
+from ncclient import manager
+from xml.etree import ElementTree as ET 
+from lxml import etree
+import xmltodict
+import jsos
+
+host = "sbx-iosxr-mgmt.cisco.com"
+port = "10000"
+username = "admin"
+password = "C1sco12345"
+
+filter2 = """
+<filter type="subtree">
+  <netconf-state xmlns="urn:ietf:params:xml:ns:yang:ietf-netconf-monitoring">
+  <schemas/>
+  </netconf-state>
+</filter>"""
+
+try:
+  wordtosearch = input("Please enter a keyword command to search for in the device schemas")
+except Exception:
+  print("Invalid input supplied")
+
+with manager.connect(host=host,port=port,username=username,password=password,hostkey_verify=False) as m:
+	
+	netconf_reply = m.get(filter=filter2)
+	pp = ET.fromstring(netconf_reply.xml).findall('.//{urn:ietf:params:xml:ns:yang:ietf-netconf-monitoring}identifier')
+	for elem in pp:
+		if 'cdp' in elem.text:
+			print(elem.text)
+ 	
+	
+	
+		
+	
