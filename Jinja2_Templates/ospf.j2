@@ -1,1 +1,21 @@
-
+{% for node in nodes %}
+{% if node.ospf is defined %}
+    ospf {
+        area 0 {
+            {% for intf, intf_attr in node.links.items() %}
+            interface {{ intf }} {
+                interface-type p2p;
+                {% if intf_attr.cost is defined %}
+                metric {{ intf_attr.cost }};
+                {% endif %}
+            {% endfor %}
+            }
+            {% if node.loopback is defined %}
+            interface loopback {{ node.loopback[id] }}.0 {
+                passive;
+            }
+            {% endif %}
+        }
+    }
+{% endif %}
+{% endfor %}
