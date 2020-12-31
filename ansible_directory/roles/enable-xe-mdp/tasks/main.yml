@@ -1,12 +1,11 @@
 ---
 
-- name: Generate a template for the router
-  template:
-    src: './roles/enable-xe-mdp/templates/interfaces.j2'
-    dest: '/etc/ansible/CONFIG/new_intf.conf'
-
 - name: Config an a new Loopback 1oo Intf
   netconf_config:
-    src: './roles/enable-xe-mdp/templates/interfaces.j2'
-    backup: yes  
-    format: text
+    src: './roles/enable-xe-mdp/files/main.yml'
+    backup: yes
+    default_operation: replace
+ 
+      
+    
+    

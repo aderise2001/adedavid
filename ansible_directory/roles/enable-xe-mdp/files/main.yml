@@ -3,14 +3,14 @@
   <interfaces xmlns="urn:ietf:params:xml:ns:yang:ietf-interfaces">
     <interface>
       <name>GigabitEthernet3</name>
-      <description operation="replace">NETCONF IS GOOD</description>
       <type xmlns:ianaift="urn:ietf:params:xml:ns:yang:iana-if-type">ianaift:ethernetCsmacd</type>
-      <enabled operation="replace">false</enabled>
+      <enabled>true</enabled>
       <ipv4 xmlns="urn:ietf:params:xml:ns:yang:ietf-ip">
         <address>
           <ip>70.10.10.10</ip>
-          <netmask>255.255.255.252</netmask>
+          <netmask>255.255.255.0</netmask>
         </address>
+        <secondary>false</secondary>
       </ipv4>
     </interface>
   </interfaces>

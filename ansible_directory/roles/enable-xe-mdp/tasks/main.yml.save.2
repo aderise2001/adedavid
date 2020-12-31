@@ -1,0 +1,15 @@
+---
+
+
+- name: Config an a new Loopback 1oo Intf
+  ios_l3_interfaces:
+    config:
+      - name: "{{ item.name }}"
+        ipv4:
+        - address: "{{ item.ipv4[0].address }}"
+          secondary: "{{ item.ipv4[0].secondary }}"
+    state: replaced
+  with_items: "{{ interface }}"
+      
+    
+    

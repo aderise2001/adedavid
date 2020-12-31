@@ -1,18 +1,13 @@
 ---
 interface:
-  Gigabitethernet:
-    - name: '3'
-      description: P2P link
-      ip:
-        address:
-          primary:
-            address: 12.12.12.1
-            mask: 255.255.255.0
-  Loopback:
-    - name: 0
-      description: ROUTER ID
-      ip:
-        address:
-          primary:
-            address: 1.1.1.1
-            mask: 255.255.255.255
+  - name: GigabitEthernet3
+    description: P2P link
+    ipv4:
+      - address: 192.168.1.1/24
+        secondary: no
+
+  - name: GigabitEthernet2
+    description: ROUTER ID
+    ipv4:
+      - address: 100.100.1.1/24
+        secondary: no

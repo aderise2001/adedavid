@@ -7,7 +7,7 @@
     - role: enable-xe-mdp
   vars:
     ansible_network_os: csr
-
+    ansible_port: 10000
 - hosts: xr
   connection: network_cli
   gather_facts: no
